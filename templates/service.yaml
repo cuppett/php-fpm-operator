@@ -1,15 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "php-chart.fullname" . }}
+  name: {{ include "nginx-fpm.fullname" . }}
   labels:
-    {{- include "php-chart.labels" . | nindent 4 }}
+    {{- include "nginx-fpm.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
+  sessionAffinity: None
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.service.port }}
       protocol: TCP
       name: http
   selector:
-    {{- include "php-chart.selectorLabels" . | nindent 4 }}
+    {{- include "nginx-fpm.selectorLabels" . | nindent 4 }}

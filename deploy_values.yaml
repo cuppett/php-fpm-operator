@@ -1,0 +1,9 @@
+volumes:
+  - name: php-data
+    persistentVolumeClaim:
+      claimName: nginx-fpm-storage
+
+volumeMounts:
+  - name: php-data
+    mountPath: /var/www/html
+    subPath: webroot
