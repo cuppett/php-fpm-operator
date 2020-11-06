@@ -13,6 +13,7 @@ metadata:
     {{- include "nginx-fpm.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
+    nginx.org/client-max-body-size: "{{- .Values.runtime.max_body | lower }}"
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:

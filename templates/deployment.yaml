@@ -48,6 +48,9 @@ spec:
             httpGet:
               path: /
               port: http
+          env:
+            - name: NGINX_CLIENT_MAX_BODY_SIZE
+              value: "{{- .Values.runtime.max_body | lower }}"
           resources:
             {{- toYaml .Values.resources.nginx | nindent 12 }}
           volumeMounts:
@@ -57,6 +60,9 @@ spec:
           {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}/{{ .Values.image.name.fpm }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PHP_POST_MAX_SIZE
+              value: "{{- .Values.runtime.max_body }}"
           ports:
             - name: fpm
               containerPort: 9000
