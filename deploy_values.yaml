@@ -1,3 +1,15 @@
+image:
+  repository: 072298089782.dkr.ecr.us-east-2.amazonaws.com
+  name:
+    nginx: nginx
+    fpm: wordpress
+
+runtime:
+  max_body: "512M"
+
+imagePullSecrets:
+  - name: bfregcred
+
 volumes:
   - name: php-data
     persistentVolumeClaim:
