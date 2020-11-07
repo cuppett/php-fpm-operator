@@ -52,6 +52,9 @@ spec:
           env:
             - name: NGINX_CLIENT_MAX_BODY_SIZE
               value: "{{- .Values.runtime.max_body | lower }}"
+            {{- with .Values.env.nginx }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources.nginx | nindent 12 }}
           volumeMounts:
@@ -64,6 +67,9 @@ spec:
           env:
             - name: PHP_POST_MAX_SIZE
               value: "{{- .Values.runtime.max_body }}"
+            {{- with .Values.env.fpm }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           ports:
             - name: fpm
               containerPort: 9000

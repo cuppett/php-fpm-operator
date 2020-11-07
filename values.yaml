@@ -13,6 +13,18 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
+# Shared environment variables coordinated between PHP & nginx
+runtime:
+  # Relates to NGINX_CLIENT_MAX_BODY_SIZE and PHP_POST_MAX_SIZE
+  max_body: "64M"
+
+# Additional Environment variables which augment PHP or nginx containers
+env:
+  fpm:
+    - name: PHP_UPLOAD_MAX_FILESIZE
+      value: 64M
+  nginx: []
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -42,9 +54,6 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 8080
-
-runtime:
-  max_body: "64M"
 
 ingress:
   enabled: false
