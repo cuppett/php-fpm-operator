@@ -78,6 +78,12 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+verticalscaling:
+  enabled: false
+  updatePolicy:
+    updateMode: "Auto"
+  containerPolicies: []
+
 nodeSelector: {}
 
 tolerations: []
