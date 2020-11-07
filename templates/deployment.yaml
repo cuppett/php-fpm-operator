@@ -41,12 +41,13 @@ spec:
               containerPort: 8080
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
           readinessProbe:
             httpGet:
-              path: /
+              path: /ping
               port: http
           env:
             - name: NGINX_CLIENT_MAX_BODY_SIZE
