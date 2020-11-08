@@ -20,13 +20,11 @@ image:
 # Shared environment variables coordinated between PHP & nginx
 runtime:
   # Relates to NGINX_CLIENT_MAX_BODY_SIZE and PHP_POST_MAX_SIZE
-  max_body: "64M"
+  max_body: "32M"
 
 # Additional Environment variables which augment PHP or nginx containers
 env:
-  fpm:
-    - name: PHP_UPLOAD_MAX_FILESIZE
-      value: 64M
+  fpm: []
   nginx: []
 
 imagePullSecrets: []
