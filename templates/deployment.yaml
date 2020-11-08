@@ -34,7 +34,9 @@ spec:
         - name: nginx
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}/{{ .Values.image.name.nginx }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{- with .Values.image.nginx }}
+          image: "{{ .repository }}/{{ .name }}{{- if .sha }}@{{ .sha }}{{ else }}:{{ .tag | default "latest" }}{{ end }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -62,7 +64,9 @@ spec:
         - name: fpm
           securityContext:
           {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}/{{ .Values.image.name.fpm }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{- with .Values.image.fpm }}
+          image: "{{ .repository }}/{{ .name }}{{- if .sha }}@{{ .sha }}{{ else }}:{{ .tag | default "latest" }}{{ end }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: PHP_POST_MAX_SIZE

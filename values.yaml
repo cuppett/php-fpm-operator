@@ -5,13 +5,17 @@
 replicaCount: 1
 
 image:
-  repository: quay.io/cuppett
-  name:
-    nginx: fedora-s2i-php-nginx
-    fpm: fedora-s2i-php-fpm
+  fpm:
+    repository: quay.io/cuppett
+    name: fedora-s2i-php-fpm
+    tag: ""
+    sha: ""
+  nginx:
+    repository: quay.io/cuppett
+    name: fedora-s2i-php-nginx
+    tag: ""
+    sha: ""
   pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
 
 # Shared environment variables coordinated between PHP & nginx
 runtime:
