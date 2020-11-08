@@ -1,0 +1,20 @@
+# permissions for end users to view phpfpms.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: phpfpm-viewer-role
+rules:
+- apiGroups:
+  - runtime.com.cuppett
+  resources:
+  - phpfpms
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - runtime.com.cuppett
+  resources:
+  - phpfpms/status
+  verbs:
+  - get

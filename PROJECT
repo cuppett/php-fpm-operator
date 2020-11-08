@@ -1,0 +1,8 @@
+domain: com.cuppett
+layout: helm.sdk.operatorframework.io/v1
+projectName: php-operator
+resources:
+- group: runtime
+  kind: PhpFpm
+  version: v1alpha1
+version: 3-alpha

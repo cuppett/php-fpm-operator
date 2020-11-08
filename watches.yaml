@@ -1,0 +1,6 @@
+# Use the 'create api' subcommand to add watches to this file.
+- group: runtime.com.cuppett
+  version: v1alpha1
+  kind: PhpFpm
+  chart: helm-charts/nginx-fpm
+# +kubebuilder:scaffold:watch
