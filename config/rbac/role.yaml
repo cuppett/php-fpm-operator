@@ -52,11 +52,30 @@ rules:
   resources:
   - "serviceaccounts"
   - "services"
+# Need to be able to manipulate ingresses
 - verbs:
   - "*"
   apiGroups:
   - "apps"
   resources:
   - "deployments"
+- verbs:
+    - "*"
+  apiGroups:
+    - "networking.k8s.io"
+  resources:
+    - "ingresses"
+- verbs:
+    - "*"
+  apiGroups:
+    - "autoscaling.k8s.io"
+  resources:
+    - "verticalpodautoscalers"
+- verbs:
+  - "*"
+  apiGroups:
+  - "autoscaling"
+  resources:
+  - "horizontalpodautoscalers"
 
 # +kubebuilder:scaffold:rules
