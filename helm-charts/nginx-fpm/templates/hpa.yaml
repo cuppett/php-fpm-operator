@@ -2,7 +2,7 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Release.Name . | trunc 57 }}-hpa
+  name: {{ .Release.Name | trunc 57 }}-hpa
   labels:
     {{- include "nginx-fpm.labels" . | nindent 4 }}
 spec:
