@@ -2,7 +2,7 @@
 apiVersion: "autoscaling.k8s.io/v1"
 kind: VerticalPodAutoscaler
 metadata:
-  name: {{ include "nginx-fpm.fullname" . }}
+  name: {{ .Release.Name . | trunc 57 }}-vpa
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "nginx-fpm.labels" . | nindent 4 }}
@@ -10,7 +10,7 @@ spec:
   targetRef:
     apiVersion: "apps/v1"
     kind: Deployment
-    name: {{ include "nginx-fpm.fullname" . }}
+    name: {{ .Release.Name }}
   updatePolicy:
     updateMode: {{ .Values.verticalscaling.updatePolicy.updateMode }}
   resourcePolicy:

@@ -3,6 +3,6 @@ resources:
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
-- name: controller
+- digest: sha256:276485247144df398e7f0e1310f6d035d2904b9198719e5e65633ed268ca4501
+  name: controller
   newName: quay.io/cuppett/php-operator
-  newTag: f33
