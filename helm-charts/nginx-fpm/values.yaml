@@ -7,13 +7,13 @@ replicaCount: 1
 image:
   fpm:
     repository: quay.io/cuppett
-    name: fedora-s2i-php-fpm
-    tag: ""
+    name: fedora-s2i-php
+    tag: "33-fpm"
     sha: ""
   nginx:
     repository: quay.io/cuppett
-    name: fedora-s2i-php-nginx
-    tag: ""
+    name: fedora-s2i-php
+    tag: "33-nginx"
     sha: ""
   pullPolicy: Always
 
