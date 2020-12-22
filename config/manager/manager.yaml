@@ -17,6 +17,8 @@ spec:
     matchLabels:
       control-plane: controller-manager
   replicas: 1
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -29,9 +31,6 @@ spec:
         - "--leader-election-id=php-operator"
         name: manager
         resources:
-          limits:
-            cpu: 100m
-            memory: 256Mi
           requests:
             cpu: 100m
             memory: 128Mi
