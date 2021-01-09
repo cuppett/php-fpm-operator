@@ -101,5 +101,11 @@ tolerations: []
 
 affinity: {}
 
-volumes: []
-volumeMounts: []
+volumes:
+  - name: cache-volume
+    emptyDir: {}
+
+volumeMounts:
+  - name: php-data
+    mountPath: /var/www/html
+    subPath: webroot
