@@ -30,6 +30,18 @@ spec:
         - "--enable-leader-election"
         - "--leader-election-id=php-operator"
         name: manager
+        livenessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
         resources:
           requests:
             cpu: 100m
