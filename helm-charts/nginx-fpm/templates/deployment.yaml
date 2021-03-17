@@ -108,4 +108,4 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      dnsPolicy: ClusterFirst
+      dnsPolicy: {{- with .Values.dnsPolicy }}

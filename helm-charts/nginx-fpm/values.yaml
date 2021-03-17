@@ -109,3 +109,5 @@ volumeMounts:
   - name: php-data
     mountPath: /var/www/html
     subPath: webroot
+
+dnsPolicy: ClusterFirst
