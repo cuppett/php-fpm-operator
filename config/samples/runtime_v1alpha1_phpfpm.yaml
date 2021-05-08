@@ -18,12 +18,12 @@ spec:
   fullnameOverride: ""
   image:
     fpm:
-      name: fedora-s2i-php-fpm
+      name: fedora-s2i-php
       repository: quay.io/cuppett
       sha: ""
       tag: ""
     nginx:
-      name: fedora-s2i-php-nginx
+      name: fedora-s2i-php
       repository: quay.io/cuppett
       sha: ""
       tag: ""
@@ -60,5 +60,5 @@ spec:
       updateMode: Auto
   volumeMounts: []
   volumes: []
-  
-  
+
+
