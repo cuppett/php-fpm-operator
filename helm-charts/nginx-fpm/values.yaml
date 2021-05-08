@@ -102,7 +102,7 @@ tolerations: []
 affinity: {}
 
 volumes:
-  - name: cache-volume
+  - name: php-data
     emptyDir: {}
 
 volumeMounts:
