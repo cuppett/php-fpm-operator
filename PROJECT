@@ -1,11 +1,12 @@
 domain: com.cuppett
-layout: helm.sdk.operatorframework.io/v1
-projectName: php-operator
+layout:
+- helm.sdk.operatorframework.io/v1
 resources:
 - group: runtime
   kind: PhpFpm
   version: v1alpha1
-version: 3-alpha
 plugins:
   manifests.sdk.operatorframework.io/v2: {}
   scorecard.sdk.operatorframework.io/v2: {}
+projectName: php-operator
+version: "3"

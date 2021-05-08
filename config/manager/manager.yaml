@@ -17,28 +17,30 @@ spec:
     matchLabels:
       control-plane: controller-manager
   replicas: 1
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         control-plane: controller-manager
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
-      - image: controller:latest
-        args:
-        - "--enable-leader-election"
-        - "--leader-election-id=php-operator"
+      - args:
+        - --leader-elect
+        - --leader-election-id=php-operator
+        image: controller:latest
         name: manager
+        securityContext:
+          allowPrivilegeEscalation: false
         livenessProbe:
           httpGet:
-            path: /readyz
+            path: /healthz
             port: 8081
           initialDelaySeconds: 15
           periodSeconds: 20
         readinessProbe:
           httpGet:
-            path: /healthz
+            path: /readyz
             port: 8081
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -46,4 +48,5 @@ spec:
           requests:
             cpu: 100m
             memory: 128Mi
+      serviceAccountName: controller-manager
       terminationGracePeriodSeconds: 10
