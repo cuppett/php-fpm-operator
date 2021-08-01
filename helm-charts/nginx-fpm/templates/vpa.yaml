@@ -1,5 +1,6 @@
-{{- if .Capabilities.APIVersions.Has "autoscaling.k8s.io/v1/VerticalPodAutoscaler" }}
+{{- if not .Values.autoscaling.enabled }}
 {{- if .Values.verticalscaling.enabled }}
+{{- if .Capabilities.APIVersions.Has "autoscaling.k8s.io/v1/VerticalPodAutoscaler" }}
 apiVersion: "autoscaling.k8s.io/v1"
 kind: VerticalPodAutoscaler
 metadata:
@@ -17,5 +18,6 @@ spec:
   resourcePolicy:
     containerPolicies:
       {{- toYaml .Values.verticalscaling.containerPolicies | nindent 6 }}
+{{- end }}
 {{- end }}
 {{- end }}
