@@ -27,6 +27,13 @@ env:
   fpm: []
   nginx: []
 
+# Identifying if we need a longer startup probe time for FPM
+startupProbe: {}
+#  tcpSocket:
+#    port: fpm
+#  failureThreshold: 30
+#  periodSeconds: 10
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
