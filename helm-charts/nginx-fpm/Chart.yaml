@@ -1,6 +1,6 @@
 apiVersion: v2
 name: nginx-fpm
-description: A Helm chart for Kubernetes
+description: A Helm chart for Kubernetes supporting php-fpm applications based on Fedora containers
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -20,4 +20,4 @@ version: 0.1.20210710
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-appVersion: f34-sdk1.9.0
+appVersion: f34-sdk1.13.0
