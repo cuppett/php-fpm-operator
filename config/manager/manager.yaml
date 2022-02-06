@@ -21,6 +21,8 @@ spec:
     type: Recreate
   template:
     metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
       labels:
         control-plane: controller-manager
     spec:
