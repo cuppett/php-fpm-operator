@@ -1,5 +1,5 @@
 # Use the 'create api' subcommand to add watches to this file.
-- group: runtime.com.cuppett
+- group: runtime.cuppett.dev
   version: v1alpha1
   kind: PhpFpm
   chart: helm-charts/nginx-fpm

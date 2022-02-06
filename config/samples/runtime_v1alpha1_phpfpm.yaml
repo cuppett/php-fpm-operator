@@ -1,4 +1,4 @@
-apiVersion: runtime.com.cuppett/v1alpha1
+apiVersion: runtime.cuppett.dev/v1alpha1
 kind: PhpFpm
 metadata:
   name: phpfpm-sample

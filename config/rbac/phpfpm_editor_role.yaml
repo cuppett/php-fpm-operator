@@ -5,7 +5,7 @@ metadata:
   name: phpfpm-editor-role
 rules:
 - apiGroups:
-  - runtime.com.cuppett
+  - runtime.cuppett.dev
   resources:
   - phpfpms
   verbs:
@@ -17,7 +17,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - runtime.com.cuppett
+  - runtime.cuppett.dev
   resources:
   - phpfpms/status
   verbs:

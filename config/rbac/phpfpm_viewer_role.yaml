@@ -5,7 +5,7 @@ metadata:
   name: phpfpm-viewer-role
 rules:
 - apiGroups:
-  - runtime.com.cuppett
+  - runtime.cuppett.dev
   resources:
   - phpfpms
   verbs:
@@ -13,7 +13,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - runtime.com.cuppett
+  - runtime.cuppett.dev
   resources:
   - phpfpms/status
   verbs:

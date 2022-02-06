@@ -29,10 +29,10 @@ rules:
   - create
 
 ##
-## Rules for runtime.com.cuppett/v1alpha1, Kind: PhpFpm
+## Rules for runtime.cuppett.dev/v1alpha1, Kind: PhpFpm
 ##
 - apiGroups:
-  - runtime.com.cuppett
+  - runtime.cuppett.dev
   resources:
   - phpfpms
   - phpfpms/status

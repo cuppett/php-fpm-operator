@@ -1,4 +1,4 @@
-domain: com.cuppett
+domain: cuppett.dev
 layout:
 - helm.sdk.operatorframework.io/v1
 resources:
