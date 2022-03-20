@@ -23,6 +23,8 @@ spec:
     metadata:
       annotations:
         kubectl.kubernetes.io/default-container: manager
+        kubectl.kubernetes.io/default-logs-container: manager
+        kubectl.kubernetes.io/default-exec-container: manager
       labels:
         control-plane: controller-manager
     spec:
