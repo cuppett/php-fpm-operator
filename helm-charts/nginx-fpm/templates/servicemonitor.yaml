@@ -1,0 +1,21 @@
+{{- if .Values.monitoring.enabled }}
+{{- if .Capabilities.APIVersions.Has "monitoring.coreos.com/v1/ServiceMonitor" }}
+apiVersion: "monitoring.coreos.com/v1"
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name | trunc 57 }}-monitor
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "nginx-fpm.labels" . | nindent 4 }}
+spec:
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "nginx-fpm.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - path: /metrics
+      targetPort: fpm-exporter
+{{- end }}
+{{- end }}

@@ -96,6 +96,37 @@ spec:
           {{- toYaml .Values.resources.fpm | nindent 12 }}
           volumeMounts:
           {{- toYaml .Values.volumeMounts | nindent 12 }}
+        {{- if .Values.monitoring.enabled }}
+        - name: fpm-exporter
+          securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- with .Values.image.fpmexporter }}
+          image: "{{ .repository }}/{{ .name }}{{- if .sha }}@{{ .sha }}{{ else }}:{{ .tag | default "latest" }}{{ end }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PHP_FPM_FIX_PROCESS_COUNT
+              value: "true"
+            {{- with .Values.env.fpm }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: fpm-exporter
+              containerPort: 9253
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: fpm-exporter
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          readinessProbe:
+            tcpSocket:
+              port: fpm-exporter
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+          {{- toYaml .Values.resources.fpmexporter | nindent 12 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

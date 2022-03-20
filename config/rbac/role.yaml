@@ -77,5 +77,11 @@ rules:
   - "autoscaling"
   resources:
   - "horizontalpodautoscalers"
+- verbs:
+    - "*"
+  apiGroups:
+    - "monitoring.coreos.com"
+  resources:
+    - "servicemonitors"
 
 # +kubebuilder:scaffold:rules

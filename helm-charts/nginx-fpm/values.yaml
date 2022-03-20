@@ -15,6 +15,11 @@ image:
     name: fedora-s2i-php
     tag: "35-nginx"
     sha: ""
+  fpmexporter:
+    repository: quay.io/cuppett
+    name: php-fpm_exporter
+    tag: "cuppett-main"
+    sha: ""
   pullPolicy: Always
 
 # Shared environment variables coordinated between PHP & nginx
@@ -26,6 +31,7 @@ runtime:
 env:
   fpm: []
   nginx: []
+  fpmexporter: []
 
 # Identifying if we need a longer startup probe time for FPM
 startupProbe: {}
@@ -78,6 +84,7 @@ ingress:
 resources:
   nginx: {}
   fpm: {}
+  fpmexporter: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -101,6 +108,9 @@ verticalscaling:
   updatePolicy:
     updateMode: "Auto"
   containerPolicies: []
+
+monitoring:
+  enabled: true
 
 nodeSelector: {}
 
