@@ -58,7 +58,9 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  securityContext:
+    runAsNonRoot: True
   # capabilities:
   #   drop:
   #   - ALL
