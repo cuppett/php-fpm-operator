@@ -18,7 +18,7 @@ image:
   fpmexporter:
     repository: quay.io/cuppett
     name: php-fpm_exporter
-    tag: "cuppett-main"
+    tag: "2.0.4"
     sha: ""
   pullPolicy: Always
 
