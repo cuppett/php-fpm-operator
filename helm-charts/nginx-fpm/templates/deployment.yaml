@@ -110,9 +110,6 @@ spec:
           env:
             - name: PHP_FPM_FIX_PROCESS_COUNT
               value: "true"
-            {{- with .Values.env.fpm }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
           ports:
             - name: fpm-exporter
               containerPort: 9253

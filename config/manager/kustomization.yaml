@@ -11,6 +11,6 @@ configMapGenerator:
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
-- name: controller
+- digest: sha256:a3897a4912463c436158cdf9ffbeded8c7bc19f0148ad71be5b609efd98bf801
+  name: controller
   newName: quay.io/cuppett/php-operator
-  newTag: main
