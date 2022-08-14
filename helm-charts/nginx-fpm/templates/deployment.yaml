@@ -6,10 +6,17 @@ metadata:
   labels:
     {{- include "nginx-fpm.labels" . | nindent 4 }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   strategy:
+  {{- if eq .Values.replicaCount 1 }}
     type: Recreate
+  {{- else }}
+    type: RollingUpdate
+  {{- end }}
+  {{- else }}
+  strategy:
+    type: RollingUpdate
   {{- end }}
   selector:
     matchLabels:
