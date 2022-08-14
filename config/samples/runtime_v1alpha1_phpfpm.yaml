@@ -8,7 +8,6 @@ spec:
   autoscaling:
     enabled: false
     maxReplicas: 10
-    minReplicas: 1
     targetCPUUtilizationPercentage: 80
   env:
     fpm:
@@ -21,12 +20,12 @@ spec:
       name: fedora-s2i-php
       repository: quay.io/cuppett
       sha: ""
-      tag: ""
+      tag: "36-fpm"
     nginx:
       name: fedora-s2i-php
       repository: quay.io/cuppett
       sha: ""
-      tag: ""
+      tag: "36-nginx"
     pullPolicy: Always
   imagePullSecrets: []
   ingress:
