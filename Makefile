@@ -105,21 +105,24 @@ undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/confi
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 ARCH := $(shell uname -m | sed 's/x86_64/amd64/')
 
+##@ Build Dependencies
+
+## Location to install dependencies to
+LOCALBIN ?= $(shell pwd)/bin
+$(LOCALBIN):
+	mkdir -p $(LOCALBIN)
+
+## Tool Binaries
+KUSTOMIZE ?= $(LOCALBIN)/kustomize
+
+## Tool Versions
+KUSTOMIZE_VERSION ?= v4.5.5
+
+KUSTOMIZE_INSTALL_SCRIPT ?= "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"
 .PHONY: kustomize
-KUSTOMIZE = $(shell pwd)/bin/kustomize
-kustomize: ## Download kustomize locally if necessary.
-ifeq (,$(wildcard $(KUSTOMIZE)))
-ifeq (,$(shell which kustomize 2>/dev/null))
-	@{ \
-	set -e ;\
-	mkdir -p $(dir $(KUSTOMIZE)) ;\
-	curl -o bin/kustomize https://build-binaries-us-east-2-072298089782.s3.us-east-2.amazonaws.com/kustomize/kustomize_$(ARCH)_3.9.2 ;\
-	chmod +x bin/kustomize ;\
-	}
-else
-KUSTOMIZE = $(shell which kustomize)
-endif
-endif
+kustomize: $(KUSTOMIZE) ## Download kustomize locally if necessary.
+$(KUSTOMIZE): $(LOCALBIN)
+	test -s $(LOCALBIN)/kustomize || { curl -s $(KUSTOMIZE_INSTALL_SCRIPT) | bash -s -- $(subst v,,$(KUSTOMIZE_VERSION)) $(LOCALBIN); }
 
 .PHONY: helm-operator
 HELM_OPERATOR = $(shell pwd)/bin/helm-operator
