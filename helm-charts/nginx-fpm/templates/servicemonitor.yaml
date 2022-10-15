@@ -4,13 +4,18 @@ apiVersion: "monitoring.coreos.com/v1"
 kind: ServiceMonitor
 metadata:
   name: {{ .Release.Name | trunc 57 }}-monitor
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Values.monitoring.prometheus.namespace | default .Release.Namespace }}
   labels:
+    {{- if .Values.monitoring.prometheus.release }}
+    release: {{ .Values.monitoring.prometheus.release }}
+    {{- end }}
     {{- include "nginx-fpm.labels" . | nindent 4 }}
 spec:
+  {{- if .Values.monitoring.prometheus.namespace }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "nginx-fpm.selectorLabels" . | nindent 6 }}

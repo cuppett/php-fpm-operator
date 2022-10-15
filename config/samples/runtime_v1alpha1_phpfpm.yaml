@@ -33,6 +33,11 @@ spec:
     enabled: false
     hosts: []
     tls: []
+  monitoring:
+    enabled: true
+    prometheus:
+      namespace: ""
+      release: ""
   nameOverride: ""
   nodeSelector: {}
   podAnnotations: {}

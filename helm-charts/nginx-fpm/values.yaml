@@ -111,6 +111,9 @@ verticalscaling:
 
 monitoring:
   enabled: true
+  prometheus:
+    namespace: ""
+    release: ""
 
 nodeSelector: {}
 
