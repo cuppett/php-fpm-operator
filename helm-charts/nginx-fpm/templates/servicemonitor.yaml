@@ -22,5 +22,13 @@ spec:
   endpoints:
     - path: /metrics
       targetPort: fpm-exporter
+      {{- with (first .Values.ingress.hosts) }}
+      metricRelabelings:
+      - separator: ;
+        regex: (.*)
+        targetLabel: domain
+        replacement: {{ .host }}
+        action: replace
+      {{- end }}
 {{- end }}
 {{- end }}
