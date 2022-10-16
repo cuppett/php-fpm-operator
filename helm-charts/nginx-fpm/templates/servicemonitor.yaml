@@ -30,5 +30,15 @@ spec:
         replacement: {{ .host }}
         action: replace
       {{- end }}
+    - path: /metrics
+      targetPort: nginx-exporter
+      {{- with (first .Values.ingress.hosts) }}
+      metricRelabelings:
+      - separator: ;
+        regex: (.*)
+        targetLabel: domain
+        replacement: {{ .host }}
+        action: replace
+      {{- end }}
 {{- end }}
 {{- end }}

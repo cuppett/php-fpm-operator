@@ -9,7 +9,7 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   strategy:
-  {{- if eq .Values.replicaCount 1 }}
+  {{- if le .Values.replicaCount 1 }}
     type: Recreate
   {{- else }}
     type: RollingUpdate
@@ -133,6 +133,31 @@ spec:
             periodSeconds: 10
           resources:
           {{- toYaml .Values.resources.fpmexporter | nindent 12 }}
+        - name: nginx-exporter
+          securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- with .Values.image.nginxexporter }}
+          image: "{{ .repository }}/{{ .name }}{{- if .sha }}@{{ .sha }}{{ else }}:{{ .tag | default "latest" }}{{ end }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+          - "-nginx.scrape-uri=http://localhost:8080/stub_status"
+          ports:
+          - name: nginx-exporter
+            containerPort: 9113
+            protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: nginx-exporter
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          readinessProbe:
+            tcpSocket:
+              port: nginx-exporter
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+          {{- toYaml .Values.resources.nginxexporter | nindent 12 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
