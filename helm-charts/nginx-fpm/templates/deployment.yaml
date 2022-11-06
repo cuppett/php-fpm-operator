@@ -10,13 +10,13 @@ spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
   {{- if le .Values.replicaCount 1 }}
-    type: Recreate
+    type: {{ .Values.strategy.type | default "Recreate" }}
   {{- else }}
-    type: RollingUpdate
+    type: {{ .Values.strategy.type | default "RollingUpdate" }}
   {{- end }}
   {{- else }}
   strategy:
-    type: RollingUpdate
+    type: {{ .Values.strategy.type | default "RollingUpdate" }}
   {{- end }}
   selector:
     matchLabels:

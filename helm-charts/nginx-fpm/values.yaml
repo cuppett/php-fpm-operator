@@ -45,6 +45,10 @@ startupProbe: {}
 #  failureThreshold: 30
 #  periodSeconds: 10
 
+strategy: {}
+#  type: "Recreate"
+#  type: "RollingUpdate"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
