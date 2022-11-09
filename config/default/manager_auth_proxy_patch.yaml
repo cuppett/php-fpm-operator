@@ -27,11 +27,11 @@ spec:
           name: https
         resources:
           limits:
-            cpu: 500m
-            memory: 128Mi
+            cpu: 50m
+            memory: 24Mi
           requests:
             cpu: 5m
-            memory: 64Mi
+            memory: 12Mi
       - name: manager
         args:
         - "--health-probe-bind-address=:8081"
