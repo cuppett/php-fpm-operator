@@ -9,7 +9,7 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   strategy:
-  {{- if le .Values.replicaCount 1 }}
+  {{- if le (.Values.replicaCount | int) 1 }}
     type: {{ .Values.strategy.type | default "Recreate" }}
   {{- else }}
     type: {{ .Values.strategy.type | default "RollingUpdate" }}
@@ -23,13 +23,13 @@ spec:
       {{- include "nginx-fpm.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
         kubectl.kubernetes.io/default-logs-container: nginx
         kubectl.kubernetes.io/default-exec-container: fpm
         kubectl.kubernetes.io/default-container: fpm
-    {{- end }}
       labels:
         {{- include "nginx-fpm.selectorLabels" . | nindent 8 }}
     spec:
@@ -38,16 +38,20 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "nginx-fpm.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: nginx
+          {{- with .Values.securityContext }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.image.nginx }}
           image: "{{ .repository }}/{{ .name }}{{- if .sha }}@{{ .sha }}{{ else }}:{{ .tag | default "latest" }}{{ end }}"
           {{- end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           ports:
             - name: http
               containerPort: 8080
@@ -63,24 +67,28 @@ spec:
               port: http
           env:
             - name: NGINX_CLIENT_MAX_BODY_SIZE
-              value: "{{- .Values.runtime.max_body | lower }}"
+              value: {{ .Values.runtime.max_body | lower | quote }}
             {{- with .Values.env.nginx }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          {{- with .Values.resources.nginx }}
           resources:
-            {{- toYaml .Values.resources.nginx | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
         - name: fpm
+          {{- with .Values.securityContext }}
           securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.image.fpm }}
           image: "{{ .repository }}/{{ .name }}{{- if .sha }}@{{ .sha }}{{ else }}:{{ .tag | default "latest" }}{{ end }}"
           {{- end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           env:
             - name: PHP_POST_MAX_SIZE
-              value: "{{- .Values.runtime.max_body }}"
+              value: {{ .Values.runtime.max_body | quote }}
             {{- with .Values.env.fpm }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -102,14 +110,18 @@ spec:
           startupProbe:
           {{- toYaml . | nindent 12}}
           {{- end }}
+          {{- with .Values.resources.fpm }}
           resources:
-          {{- toYaml .Values.resources.fpm | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
-          {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
         {{- if .Values.monitoring.enabled }}
         - name: fpm-exporter
+          {{- with .Values.securityContext }}
           securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.image.fpmexporter }}
           image: "{{ .repository }}/{{ .name }}{{- if .sha }}@{{ .sha }}{{ else }}:{{ .tag | default "latest" }}{{ end }}"
           {{- end }}
@@ -131,11 +143,15 @@ spec:
               port: fpm-exporter
             initialDelaySeconds: 5
             periodSeconds: 10
+          {{- with .Values.resources.fpmexporter }}
           resources:
-          {{- toYaml .Values.resources.fpmexporter | nindent 12 }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
         - name: nginx-exporter
+          {{- with .Values.securityContext }}
           securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.image.nginxexporter }}
           image: "{{ .repository }}/{{ .name }}{{- if .sha }}@{{ .sha }}{{ else }}:{{ .tag | default "latest" }}{{ end }}"
           {{- end }}
@@ -156,8 +172,10 @@ spec:
               port: nginx-exporter
             initialDelaySeconds: 5
             periodSeconds: 10
+          {{- with .Values.resources.nginxexporter }}
           resources:
-          {{- toYaml .Values.resources.nginxexporter | nindent 12 }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -171,8 +189,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.volumes }}
       volumes:
+      {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       dnsPolicy: {{ .Values.dnsPolicy }}
