@@ -118,7 +118,9 @@ spec:
           {{- end }}
           {{- if or .Values.volumeMounts (and .Values.monitoring.enabled .Values.monitoring.opcache.enabled) }}
           volumeMounts:
+            {{- if .Values.volumeMounts }}
             {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- end }}
             {{- if and .Values.monitoring.enabled .Values.monitoring.opcache.enabled }}
             - name: opcache-metrics
               mountPath: {{ .Values.monitoring.opcache.mount_path }}
