@@ -75,8 +75,10 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
         - name: fpm
           {{- with .Values.securityContext }}
           securityContext:
@@ -114,8 +116,16 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- if or .Values.volumeMounts (and .Values.monitoring.enabled .Values.monitoring.opcache.enabled) }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- if and .Values.monitoring.enabled .Values.monitoring.opcache.enabled }}
+            - name: opcache-metrics
+              mountPath: {{ .Values.monitoring.opcache.mount_path }}
+              subPath: "metrics.php"
+              readOnly: true
+            {{- end }}
+          {{- end }}
         {{- if .Values.monitoring.enabled }}
         - name: fpm-exporter
           {{- with .Values.securityContext }}
@@ -189,8 +199,15 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if or .Values.volumes (and .Values.monitoring.enabled .Values.monitoring.opcache.enabled) }}
       volumes:
       {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.monitoring.enabled .Values.monitoring.opcache.enabled }}
+        - name: opcache-metrics
+          configMap:
+            name: {{ .Release.Name | trunc 50 }}-metrics-cm
+      {{- end }}
       {{- end }}
       dnsPolicy: {{ .Values.dnsPolicy }}

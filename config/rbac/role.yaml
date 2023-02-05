@@ -18,6 +18,7 @@ rules:
   - ""
   resources:
   - secrets
+  - configmaps
   verbs:
   - "*"
 # We need to create events on CRs about things happening during reconciliation

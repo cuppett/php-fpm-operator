@@ -125,6 +125,10 @@ monitoring:
   prometheus:
     namespace: ""
     release: ""
+  opcache:
+    enabled: true
+    mount_path: "/var/www/html/metrics.php"
+    uri_path: "/metrics.php"
 
 nodeSelector: {}
 

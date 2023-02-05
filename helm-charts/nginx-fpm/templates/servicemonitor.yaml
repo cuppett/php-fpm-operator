@@ -40,5 +40,17 @@ spec:
         replacement: {{ .host }}
         action: replace
       {{- end }}
+    {{- if .Values.monitoring.opcache.enabled }}
+    - path: {{ .Values.monitoring.opcache.uri_path }}
+      targetPort: http
+      {{- with (first .Values.ingress.hosts) }}
+      metricRelabelings:
+      - separator: ;
+        regex: (.*)
+        targetLabel: domain
+        replacement: {{ .host }}
+        action: replace
+      {{- end }}
+    {{- end }}
 {{- end }}
 {{- end }}

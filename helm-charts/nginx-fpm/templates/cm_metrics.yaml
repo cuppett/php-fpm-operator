@@ -1,0 +1,115 @@
+{{- if .Values.monitoring.enabled }}
+{{- if .Values.monitoring.opcache.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name | trunc 50 }}-metrics-cm
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- include "nginx-fpm.labels" . | nindent 4 }}
+data:
+  metrics.php: |
+    <?php
+    $opcache_stats = opcache_get_status(false);
+    if ($opcache_stats != null && count($opcache_stats) > 0) {
+    ?>
+    # HELP php_opcache_enabled_boolean Indicates if opcache is enabled for this instance.
+    # TYPE php_opcache_enabled_boolean gauge
+    php_opcache_enabled_boolean <?php echo $opcache_stats['opcache_enabled'] ?>
+
+    # HELP php_opcache_cache_full_boolean Indicates if opcache cache is full.
+    # TYPE php_opcache_cache_full_boolean gauge
+    php_opcache_cache_full_boolean <?php echo $opcache_stats['cache_full'] ? '1' : '0' ?>
+
+    # HELP php_opcache_restart_pending_boolean Indicates if a cache restart is pending.
+    # TYPE php_opcache_restart_pending_boolean gauge
+    php_opcache_cache_restart_pending_boolean <?php echo $opcache_stats['restart_pending'] ? '1' : '0' ?>
+
+    # HELP php_opcache_memory_used_bytes Total memory used by opcache.
+    # TYPE php_opcache_memory_used_bytes gauge
+    php_opcache_memory_used_bytes <?php echo $opcache_stats['memory_usage']['used_memory'] ?>
+
+    # HELP php_opcache_memory_free_bytes Free memory available for opcache.
+    # TYPE php_opcache_memory_free_bytes gauge
+    php_opcache_memory_free_bytes <?php echo $opcache_stats['memory_usage']['free_memory'] ?>
+
+    # HELP php_opcache_memory_wasted_bytes Wasted memory in opcache.
+    # TYPE php_opcache_memory_wasted_bytes gauge
+    php_opcache_memory_wasted_bytes <?php echo $opcache_stats['memory_usage']['wasted_memory'] ?>
+
+    # HELP php_opcache_memory_wasted_pct Current wasted percentage of memory in opcache.
+    # TYPE php_opcache_memory_wasted_pct gauge
+    php_opcache_memory_wasted_pct <?php echo $opcache_stats['memory_usage']['current_wasted_percentage'] ?>
+
+    # HELP php_opcache_strings_buffer_size_bytes Interned strings buffer size (in bytes).
+    # TYPE php_opcache_strings_buffer_size_bytes gauge
+    php_opcache_strings_buffer_size_bytes <?php echo $opcache_stats['interned_strings_usage']['buffer_size'] ?>
+
+    # HELP php_opcache_strings_memory_used_bytes Memory used for strings by opcache.
+    # TYPE php_opcache_strings_memory_used_bytes gauge
+    php_opcache_strings_memory_used_bytes <?php echo $opcache_stats['interned_strings_usage']['used_memory'] ?>
+
+    # HELP php_opcache_strings_memory_free_bytes Memory free for strings by opcache.
+    # TYPE php_opcache_strings_memory_free_bytes gauge
+    php_opcache_strings_memory_free_bytes <?php echo $opcache_stats['interned_strings_usage']['free_memory'] ?>
+
+    # HELP php_opcache_strings_count The number of strings cached by opcache.
+    # TYPE php_opcache_strings_count gauge
+    php_opcache_strings_count <?php echo $opcache_stats['interned_strings_usage']['number_of_strings'] ?>
+
+
+    # HELP php_opcache_statistics_cached_scripts_count The number of scripts currently in the cache.
+    # TYPE php_opcache_statistics_cached_scripts_count gauge
+    php_opcache_statistics_cached_scripts_count <?php echo $opcache_stats['opcache_statistics']['num_cached_scripts'] ?>
+
+    # HELP php_opcache_statistics_cached_keys_count The number of keys currently in the cache.
+    # TYPE php_opcache_statistics_cached_keys_count gauge
+    php_opcache_statistics_cached_keys_count <?php echo $opcache_stats['opcache_statistics']['num_cached_keys'] ?>
+
+    # HELP php_opcache_statistics_max_cached_keys_count The maximum number of keys ever in the cache.
+    # TYPE php_opcache_statistics_max_cached_keys_count gauge
+    php_opcache_statistics_cached_keys_count <?php echo $opcache_stats['opcache_statistics']['max_cached_keys'] ?>
+
+    # HELP php_opcache_statistics_hits_count The total hits on this cache.
+    # TYPE php_opcache_statistics_hits_count counter
+    php_opcache_statistics_hits_count <?php echo $opcache_stats['opcache_statistics']['hits'] ?>
+
+    # HELP php_opcache_statistics_start_time The start time off this cache.
+    # TYPE php_opcache_statistics_start_time gauge
+    php_opcache_statistics_start_time <?php echo $opcache_stats['opcache_statistics']['start_time'] ?>
+
+    # HELP php_opcache_statistics_restart_time The last restart time off this cache.
+    # TYPE php_opcache_statistics_restart_time gauge
+    php_opcache_statistics_restart_time <?php echo $opcache_stats['opcache_statistics']['last_restart_time'] ?>
+
+    # HELP php_opcache_statistics_oom_restart_count The number of restarts due to OOM.
+    # TYPE php_opcache_statistics_oom_restart_count counter
+    php_opcache_statistics_oom_restart_count <?php echo $opcache_stats['opcache_statistics']['oom_restarts'] ?>
+
+    # HELP php_opcache_statistics_hash_restart_count The number of restarts due to hashing (max accelerated files).
+    # TYPE php_opcache_statistics_hash_restart_count counter
+    php_opcache_statistics_hash_restart_count <?php echo $opcache_stats['opcache_statistics']['hash_restarts'] ?>
+
+    # HELP php_opcache_statistics_manual_restart_count The number of manual restarts.
+    # TYPE php_opcache_statistics_manual_restart_count counter
+    php_opcache_statistics_manual_restart_count <?php echo $opcache_stats['opcache_statistics']['manual_restarts'] ?>
+
+    # HELP php_opcache_statistics_miss_count The number of cache misses.
+    # TYPE php_opcache_statistics_miss_count counter
+    php_opcache_statistics_miss_count <?php echo $opcache_stats['opcache_statistics']['misses'] ?>
+
+    # HELP php_opcache_statistics_blocklist_miss_count The number of misses due to blocklist.
+    # TYPE php_opcache_statistics_blocklist_miss_count counter
+    php_opcache_statistics_blocklist_miss_count <?php echo $opcache_stats['opcache_statistics']['blacklist_misses'] ?>
+
+    # HELP php_opcache_statistics_blocklist_miss_ratio The ratio of misses due to blocklist.
+    # TYPE php_opcache_statistics_blocklist_miss_ratio gauge
+    php_opcache_statistics_blocklist_miss_ratio <?php echo $opcache_stats['opcache_statistics']['blacklist_miss_ratio'] ?>
+
+    # HELP php_opcache_statistics_hit_ratio The ratio of cache hits.
+    # TYPE php_opcache_statistics_hit_ratio gauge
+    php_opcache_statistics_hit_ratio <?php echo $opcache_stats['opcache_statistics']['opcache_hit_rate'] ?>
+    <?php
+    }
+{{- end }}
+{{- end }}
