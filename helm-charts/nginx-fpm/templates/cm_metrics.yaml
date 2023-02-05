@@ -1,5 +1,4 @@
-{{- if .Values.monitoring.enabled }}
-{{- if .Values.monitoring.opcache.enabled }}
+{{- if and .Values.monitoring.enabled .Values.monitoring.opcache.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -111,5 +110,4 @@ data:
     php_opcache_statistics_hit_ratio <?php echo $opcache_stats['opcache_statistics']['opcache_hit_rate'] ?>
     <?php
     }
-{{- end }}
 {{- end }}
