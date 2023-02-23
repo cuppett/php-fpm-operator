@@ -16,7 +16,7 @@ spec:
     - type: Pods
       pods:
         metric:
-          name: php_fpm_active_processes
+          name: phpfpm_active_processes
         target:
           type: AverageValue
           averageValue: {{ mulf (.Values.runtime.fpm.max_workers | float64) 0.8  }}
