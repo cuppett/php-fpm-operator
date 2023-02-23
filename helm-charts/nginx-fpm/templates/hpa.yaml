@@ -1,4 +1,4 @@
-{{- if .Values.autoscaling.enabled }}
+{{- if and .Values.autoscaling.enabled (gt (.Values.replicaCount | int) 1) }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -10,7 +10,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ .Release.Name }}
-  minReplicas: {{ min 2 (.Values.replicaCount | int) }}
+  minReplicas: 2
   maxReplicas: {{ .Values.replicaCount }}
   metrics:
     - type: Pods
