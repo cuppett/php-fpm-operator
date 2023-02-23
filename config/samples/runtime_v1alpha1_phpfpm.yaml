@@ -20,12 +20,12 @@ spec:
       name: fedora-s2i-php
       repository: quay.io/cuppett
       sha: ""
-      tag: "36-fpm"
+      tag: "37-fpm"
     nginx:
       name: fedora-s2i-php
       repository: quay.io/cuppett
       sha: ""
-      tag: "36-nginx"
+      tag: "37-nginx"
     pullPolicy: Always
   imagePullSecrets: []
   ingress:
