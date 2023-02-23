@@ -10,7 +10,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ .Release.Name }}
-  minReplicas: 1
+  minReplicas: {{ min 2 (.Values.replicaCount | int) }}
   maxReplicas: {{ .Values.replicaCount }}
   metrics:
     - type: Pods
