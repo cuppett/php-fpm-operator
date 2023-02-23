@@ -31,6 +31,8 @@ image:
 runtime:
   # Relates to NGINX_CLIENT_MAX_BODY_SIZE and PHP_POST_MAX_SIZE
   max_body: "32M"
+  fpm:
+    max_workers: "16"
 
 # Additional Environment variables which augment PHP or nginx containers
 env:
@@ -110,9 +112,6 @@ resources:
 
 autoscaling:
   enabled: false
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
 verticalscaling:
   enabled: false
