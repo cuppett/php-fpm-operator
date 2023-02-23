@@ -19,7 +19,7 @@ spec:
           name: phpfpm_active_processes
         target:
           type: AverageValue
-          averageValue: {{ mulf (.Values.runtime.fpm.max_workers | float64) 0.8  }}
+          averageValue: {{ ceil (mulf (.Values.runtime.fpm.max_workers | float64) 0.8) | int64 | quote }}
   behavior:
     scaleDown:
       stabilizationWindowSeconds: 180
