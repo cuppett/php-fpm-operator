@@ -91,6 +91,8 @@ spec:
           env:
             - name: PHP_POST_MAX_SIZE
               value: {{ .Values.runtime.max_body | quote }}
+            - name: PHP_FPM_MAX_CHILDREN
+              value: {{ .Values.runtime.fpm.max_workers | quote }}
             {{- with .Values.env.fpm }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
