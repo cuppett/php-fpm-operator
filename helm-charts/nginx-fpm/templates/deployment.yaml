@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "nginx-fpm.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
+  {{- if or (not .Values.autoscaling.enabled) (le (.Values.replicaCount | int) 2) }}
   replicas: {{ .Values.replicaCount }}
   strategy:
   {{- if le (.Values.replicaCount | int) 1 }}

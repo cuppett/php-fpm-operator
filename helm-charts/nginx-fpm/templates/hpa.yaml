@@ -1,4 +1,4 @@
-{{- if and .Values.autoscaling.enabled (gt (.Values.replicaCount | int) 1) }}
+{{- if and .Values.autoscaling.enabled (gt (.Values.replicaCount | int) 2) }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
