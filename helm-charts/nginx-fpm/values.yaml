@@ -8,12 +8,12 @@ image:
   fpm:
     repository: quay.io/cuppett
     name: fedora-s2i-php
-    tag: "37-fpm"
+    tag: "38-fpm"
     sha: ""
   nginx:
     repository: quay.io/cuppett
     name: fedora-s2i-php
-    tag: "37-nginx"
+    tag: "38-nginx"
     sha: ""
   fpmexporter:
     repository: quay.io/cuppett
