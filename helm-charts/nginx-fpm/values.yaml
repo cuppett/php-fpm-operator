@@ -6,24 +6,24 @@ replicaCount: 1
 
 image:
   fpm:
-    repository: quay.io/cuppett
-    name: fedora-s2i-php
-    tag: "38-fpm"
+    repository: ghcr.io/cuppett
+    name: fedora-s2i-php-fpm
+    tag: "39"
     sha: ""
   nginx:
-    repository: quay.io/cuppett
-    name: fedora-s2i-php
-    tag: "38-nginx"
+    repository: ghcr.io/cuppett
+    name: fedora-s2i-php-nginx
+    tag: "39"
     sha: ""
   fpmexporter:
-    repository: quay.io/cuppett
+    repository: ghcr.io/hipages
     name: php-fpm_exporter
-    tag: "2.2.0"
+    tag: "2"
     sha: ""
   nginxexporter:
-    repository: quay.io/cuppett
+    repository: ghcr.io/nginxinc
     name: nginx-prometheus-exporter
-    tag: "0.11.0"
+    tag: "0.11"
     sha: ""
   pullPolicy: Always
 
