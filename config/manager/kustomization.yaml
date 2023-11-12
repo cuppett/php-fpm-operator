@@ -13,4 +13,4 @@ kind: Kustomization
 images:
 - newTag: main
   name: controller
-  newName: quay.io/cuppett/php-operator
+  newName: ghcr.io/cuppett/php-fpm-operator
