@@ -3,4 +3,5 @@
   version: v1alpha1
   kind: PhpFpm
   chart: helm-charts/nginx-fpm
+  watchDependentResources: false
 # +kubebuilder:scaffold:watch
