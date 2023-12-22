@@ -1,5 +1,5 @@
 # Build the manager binary
-FROM quay.io/operator-framework/helm-operator:v1.32.0
+FROM quay.io/operator-framework/helm-operator:v1.33.0
 
 LABEL maintainer="Stephen Cuppett <steve@cuppett.com>" \
       org.opencontainers.image.source="https://github.com/cuppett/php-fpm-operator"
