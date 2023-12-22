@@ -3,5 +3,4 @@
   version: v1alpha1
   kind: PhpFpm
   chart: helm-charts/nginx-fpm
-  reconcilePeriod: 1h0m0s
 # +kubebuilder:scaffold:watch
