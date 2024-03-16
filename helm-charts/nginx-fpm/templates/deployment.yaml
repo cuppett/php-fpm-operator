@@ -27,8 +27,6 @@ spec:
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        kubectl.kubernetes.io/default-logs-container: nginx
-        kubectl.kubernetes.io/default-exec-container: fpm
         kubectl.kubernetes.io/default-container: fpm
       labels:
         {{- include "nginx-fpm.selectorLabels" . | nindent 8 }}
