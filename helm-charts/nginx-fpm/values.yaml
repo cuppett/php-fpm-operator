@@ -11,9 +11,9 @@ image:
     tag: "39"
     sha: ""
   nginx:
-    repository: ghcr.io/nginxinc
-    name: nginxinc/nginx-unprivileged
-    tag: "latest"
+    repository: ghcr.io/cuppett
+    name: fedora-s2i-php-nginx
+    tag: "39"
     sha: ""
   fpmexporter:
     repository: ghcr.io/hipages
@@ -83,7 +83,6 @@ service:
   port: 8080
 
 ingress:
-  className: ""
   enabled: false
   annotations: {}
     # kubernetes.io/ingress.class: nginx
