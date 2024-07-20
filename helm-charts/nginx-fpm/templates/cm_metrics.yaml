@@ -67,7 +67,7 @@ data:
 
     # HELP php_opcache_statistics_max_cached_keys_count The maximum number of keys ever in the cache.
     # TYPE php_opcache_statistics_max_cached_keys_count gauge
-    php_opcache_statistics_cached_keys_count <?php echo $opcache_stats['opcache_statistics']['max_cached_keys'] ?>
+    php_opcache_statistics_max_cached_keys_count <?php echo $opcache_stats['opcache_statistics']['max_cached_keys'] ?>
 
     # HELP php_opcache_statistics_hits_count The total hits on this cache.
     # TYPE php_opcache_statistics_hits_count counter
