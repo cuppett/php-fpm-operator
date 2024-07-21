@@ -8,12 +8,12 @@ image:
   fpm:
     repository: ghcr.io/cuppett
     name: fedora-s2i-php-fpm
-    tag: "39"
+    tag: "40"
     sha: ""
   nginx:
     repository: ghcr.io/cuppett
     name: fedora-s2i-php-nginx
-    tag: "39"
+    tag: "40"
     sha: ""
   fpmexporter:
     repository: ghcr.io/hipages
